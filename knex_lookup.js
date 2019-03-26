@@ -12,7 +12,6 @@ const knex = require("knex")({
 });
 
 const searchPar = process.argv[2];
-const instanceDump = [];
 
 // Formats the date back to what example shows
 
@@ -40,19 +39,19 @@ function searchCompare(data) {
 
 // Outputs the number of matches and lists the matches
 
-function resultPresenter(instanceDump) {
+function resultPresenter(rows) {
   console.log(
     "Found " +
-      instanceDump.length +
+      rows.length +
       " person(s)" +
       " by the name " +
       "'" +
       searchPar +
       "':"
   );
-  for (const instance of instanceDump) {
+  for (const instance of rows) {
     console.log(
-      instanceDump.indexOf(instance) +
+      rows.indexOf(instance) +
         1 +
         "- " +
         instance.first_name +
@@ -68,9 +67,9 @@ function resultPresenter(instanceDump) {
 knex
   .select()
   .from("famous_people")
+  .where("first_name", searchPar)
   .asCallback(function(err, rows) {
     if (err) return console.error(err);
-    searchCompare(rows);
-    resultPresenter(instanceDump);
+    resultPresenter(rows);
     knex.destroy();
   });
