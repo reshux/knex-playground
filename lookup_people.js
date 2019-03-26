@@ -17,8 +17,8 @@ const instanceDump = [];
 
 function formatDate(date) {
   let formattedDate = new Date(date),
-    month = "" + (formattedDate.getMonth() + 1),
-    day = "" + formattedDate.getDate(),
+    month = formattedDate.getMonth() + 1,
+    day = formattedDate.getDate(),
     year = formattedDate.getFullYear();
 
   if (month.length < 2) month = "0" + month;
