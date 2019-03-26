@@ -10,8 +10,7 @@ const client = new pg.Client({
   ssl: settings.ssl
 });
 
-const searchPar = process.argv[2];
-const instanceDump = [];
+const searchPar = process.argv.slice(2);
 
 // Formats the date back to what example shows
 
@@ -27,31 +26,21 @@ function formatDate(date) {
   return [year, month, day].join("-");
 }
 
-// Compares the command line input the database rows
-
-function searchCompare(data) {
-  for (const row of data) {
-    if (row.first_name === searchPar) {
-      instanceDump.push(row);
-    }
-  }
-}
-
 // Outputs the number of matches and lists the matches
 
-function resultPresenter(instanceDump) {
+function resultPresenter(result) {
   console.log(
     "Found " +
-      instanceDump.length +
+      result.length +
       " person(s)" +
       " by the name " +
       "'" +
       searchPar +
       "':"
   );
-  for (const instance of instanceDump) {
+  for (const instance of result) {
     console.log(
-      instanceDump.indexOf(instance) +
+      result.indexOf(instance) +
         1 +
         "- " +
         instance.first_name +
@@ -64,17 +53,20 @@ function resultPresenter(instanceDump) {
   }
 }
 
+const myQuery = {
+  text: "SELECT * FROM famous_people WHERE first_name=$1",
+  values: searchPar
+};
+
 client.connect(err => {
   if (err) {
     return console.error("Connection Error", err);
   }
-  const myQuery = "SELECT * FROM famous_people";
   client.query(myQuery, (err, result) => {
     if (err) {
       return console.error("error running query", err);
     }
-    searchCompare(result.rows);
-    resultPresenter(instanceDump);
+    resultPresenter(result.rows);
     client.end();
   });
 });
