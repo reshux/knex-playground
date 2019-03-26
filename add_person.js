@@ -21,6 +21,6 @@ knex("famous_people")
   .insert({ first_name: newFirst, last_name: newLast, birthdate: newDate })
   .asCallback(function(err, rows) {
     if (err) return console.error(err);
-    console.log(rows);
+    console.log("New row added to database.");
     knex.destroy();
   });

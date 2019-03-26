@@ -29,13 +29,13 @@ function formatDate(date) {
 
 // Compares the command line input the database rows
 
-function searchCompare(data) {
-  for (const row of data) {
-    if (row.first_name === searchPar) {
-      instanceDump.push(row);
-    }
-  }
-}
+// function searchCompare(data) {
+//   for (const row of data) {
+//     if (row.first_name === searchPar) {
+//       instanceDump.push(row);
+//     }
+//   }
+// }
 
 // Outputs the number of matches and lists the matches
 
