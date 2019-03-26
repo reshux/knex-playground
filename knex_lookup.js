@@ -72,7 +72,5 @@ knex
     if (err) return console.error(err);
     searchCompare(rows);
     resultPresenter(instanceDump);
+    knex.destroy();
   });
-
-// const localdb = settings.database;
-// console.log(localdb);
